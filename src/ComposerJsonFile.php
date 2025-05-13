@@ -9,6 +9,10 @@ use RuntimeException;
 use stdClass;
 use Stringable;
 use JsonException;
+use DateTimeImmutable;
+use DateTimeInterface;
+use DateTimeZone;
+use Exception;
 
 class ComposerJsonFile implements Stringable
 {
@@ -18,7 +22,7 @@ class ComposerJsonFile implements Stringable
         string|Stringable|null $json = null
     ) {
         if ($json !== null) {
-            $content = (string)$json;
+            $content = (string) $json;
         } else {
             if (!file_exists($this->filePath)) {
                 throw new InvalidComposerJsonFileException("File does not exist: {$this->filePath}");
@@ -81,4 +85,108 @@ class ComposerJsonFile implements Stringable
         return $this;
     }
 
+    public function getType(): string
+    {
+        return $this->composerJson->type ?? '';
+    }
+
+    public function setType(string $type): self
+    {
+        $this->composerJson->type = $type;
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->composerJson->description ?? '';
+    }
+    public function setDescription(string $description): self
+    {
+        $this->composerJson->description = $description;
+        return $this;
+    }
+
+    public function getLicense(): string
+    {
+        return $this->composerJson->license ?? '';
+    }
+    public function setLicense(string $license): self
+    {
+        $this->composerJson->license = $license;
+        return $this;
+    }
+    public function getHomepage(): string
+    {
+        return $this->composerJson->homepage ?? '';
+    }
+    public function setHomepage(string $homepage): self
+    {
+        $this->composerJson->homepage = $homepage;
+        return $this;
+    }
+
+    public function getTime(): DateTimeImmutable
+    {
+        if (!isset($this->composerJson->time)) {
+            throw new RuntimeException("Time not found in composer.json");
+        }
+        try {
+            // https://getcomposer.org/doc/04-schema.md#time By definition composer.json time is in UTC
+            return new DateTimeImmutable($this->composerJson->time, new DateTimeZone('UTC'));
+        } catch (Exception $e) {
+            throw new RuntimeException("Invalid time format in composer.json: " . $e->getMessage());
+        }
+    }
+    public function setTime(DateTimeInterface $time): self
+    {
+        $this->composerJson->time = $time->format('Y-m-d H:i:s');
+        return $this;
+    }
+
+
+    /**
+     * @return array<Author>
+     */
+    public function getAuthors(): array
+    {
+        $authors = [];
+        foreach ($this->composerJson->authors as $authorPlain) {
+            $authors[] = new Author(
+                $authorPlain->name ?? '',
+                $authorPlain->email ?? '',
+                $authorPlain->homepage ?? '',
+                $authorPlain->role ?? ''
+            );
+        }
+        return $authors;
+    }
+
+    public function setAuthors(array $authors): self
+    {
+        foreach ($authors as $author) {
+            if ($author instanceof Author) {
+
+            }
+        }
+        $this->composerJson->authors = $authors;
+        return $this;
+    }
+    public function hasAuthor(string $name): bool
+    {
+        foreach ($this->getAuthors() as $author) {
+            if (isset($author->name) && $author->name === $name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function addAuthor(Author $author): self
+    {
+        if ($this->hasAuthor($author->name)) {
+            throw new RuntimeException("Author already exists: {$author->name}");
+        }
+        $this->composerJson->authors[] = $author;
+        return $this;
+    }
 }

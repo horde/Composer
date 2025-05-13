@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Horde\Composer;
+
 enum FileType: string
 {
     case HordeYml = '.horde.yml';
