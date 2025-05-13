@@ -7,10 +7,14 @@ namespace Horde\PhpConfigFile\Test\Unit;
 use Horde\PhpConfigFile\PhpConfigFile;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use PhpUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Horde\Composer\ComposerJsonFile;
 use Horde\Composer\InvalidComposerJsonFileException;
 
+/**
+ * @coversNothing
+ */
 #[CoversNothing]
 class ComposerJsonFileTest extends TestCase
 {

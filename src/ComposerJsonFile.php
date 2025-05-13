@@ -143,6 +143,35 @@ class ComposerJsonFile implements Stringable
         return $this;
     }
 
+    public function addBranchAlias(string $alias, string $branch): self
+    {
+        if (!isset($this->composerJson->{'extra'}->{"branch-alias"})) {
+            $this->composerJson->{'extra'}->{"branch-alias"} = new stdClass();
+        }
+        $this->composerJson->{'extra'}->{"branch-alias"}->{$branch} = $alias;
+        return $this;
+    }
+    public function getBranchAlias(string $branch): ?string
+    {
+        if (isset($this->composerJson->{'extra'}->{"branch-alias"}->{$branch})) {
+            return $this->composerJson->{'extra'}->{"branch-alias"}->{$branch};
+        }
+        return null;
+    }
+    public function getBranchAliases(): array
+    {
+        if (isset($this->composerJson->{'extra'}->{"branch-alias"})) {
+            return (array) $this->composerJson->{'extra'}->{"branch-alias"};
+        }
+        return [];
+    }
+    public function removeBranchAlias(string $branch): self
+    {
+        if (isset($this->composerJson->{'extra'}->{"branch-alias"}->{$branch})) {
+            unset($this->composerJson->{'extra'}->{"branch-alias"}->{$branch});
+        }
+        return $this;
+    }
 
     /**
      * @return array<Author>
