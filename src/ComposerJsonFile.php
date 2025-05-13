@@ -14,15 +14,20 @@ class ComposerJsonFile implements Stringable
 {
     private stdClass $composerJson;
     public function __construct(
-        private string $filePath
+        private string $filePath,
+        string|Stringable|null $json = null
     ) {
-        if (!file_exists($this->filePath)) {
-            throw new InvalidComposerJsonFileException("File does not exist: {$this->filePath}");
+        if ($json !== null) {
+            $content = (string)$json;
+        } else {
+            if (!file_exists($this->filePath)) {
+                throw new InvalidComposerJsonFileException("File does not exist: {$this->filePath}");
+            }
+            if (!is_readable($this->filePath)) {
+                throw new InvalidComposerJsonFileException("File is not readable: {$this->filePath}");
+            }
+            $content = file_get_contents($this->filePath);
         }
-        if (!is_readable($this->filePath)) {
-            throw new InvalidComposerJsonFileException("File is not readable: {$this->filePath}");
-        }
-        $content = file_get_contents($this->filePath);
         if (!json_validate($content)) {
             throw new InvalidComposerJsonFileException("Invalid JSON in file: {$this->filePath}");
         }
@@ -51,6 +56,20 @@ class ComposerJsonFile implements Stringable
             throw new RuntimeException("Package name not found in composer.json");
         }
         return $this->composerJson->name ?? '';
+    }
+    public function setPreferStable(bool $preferStable = true): self
+    {
+        $this->composerJson->{'prefer-stable'} = $preferStable;
+        return $this;
+    }
+
+    public function setMinimumStability(string $stability = 'stable'): self
+    {
+        if (!in_array($stability, ['dev', 'alpha', 'beta', 'RC', 'stable'])) {
+            throw new RuntimeException('Invalid stability level: ' . $stability);
+        }
+        $this->composerJson->{'minimum-stability'} = $stability;
+        return $this;
     }
 
     public function setName(string|Stringable $name): self
