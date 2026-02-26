@@ -4,11 +4,13 @@
   state:
     release: alpha
     api: alpha
-  date: 2025-05-13
+  date: 2026-02-26
   license:
     identifier: LGPL-2.1-only
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
+    test: add comprehensive unit tests for Author class
+    chore(release): bump version to 1.0.0-alpha2
     feat: Methods to handle branch aliases
     feat: Add methods for authors and repository types
     feat: Import more functionality from Horde\Components\Composer. Repository Types, minimum-stability settings.
