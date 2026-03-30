@@ -218,4 +218,22 @@ class ComposerJsonFile implements Stringable
         $this->composerJson->authors[] = $author;
         return $this;
     }
+
+    public function getSupport(): ?Support
+    {
+        if (!isset($this->composerJson->support)) {
+            return null;
+        }
+        return Support::fromStdClass($this->composerJson->support);
+    }
+
+    public function setSupport(Support $support): self
+    {
+        if ($support->isEmpty()) {
+            unset($this->composerJson->support);
+        } else {
+            $this->composerJson->support = $support->toStdClass();
+        }
+        return $this;
+    }
 }
