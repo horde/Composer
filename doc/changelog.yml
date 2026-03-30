@@ -1,4 +1,16 @@
 ---
+1.0.0-beta1:
+  api: 1.0.0-beta1
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-30
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    test: Cover support value object and builder
+    feat: Implement the "support" entitiy of the composer.json format
 1.0.0-alpha3:
   api: 1.0.0-alpha1
   state:

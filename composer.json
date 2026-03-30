@@ -11,7 +11,14 @@
             "role": "contributor"
         }
     ],
-    "time": "2026-02-26",
+    "keywords": [
+        "support",
+        "metadata",
+        "composer",
+        "json",
+        "packagist"
+    ],
+    "time": "2026-03-30",
     "repositories": [],
     "require": {
         "php": "^8.2"

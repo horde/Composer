@@ -17,10 +17,10 @@ authors:
     active: true
     role: contributor
 version:
-  release: 1.0.0-alpha3
+  release: 1.0.0-beta1
   api: 1.0.0alpha1
 state:
-  release: alpha
+  release: beta
   api: alpha
 license:
   identifier: LGPL-2.1-only
@@ -34,3 +34,13 @@ dependencies:
       phpunit/phpunit: ^12
       friendsofphp/php-cs-fixer: ^3
       phpstan/phpstan: ^2
+keywords:
+  - support
+  - metadata
+  - composer
+  - json
+  - packagist
+vendor: horde
+quality:
+  phpstan:
+    level: 5
