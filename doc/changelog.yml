@@ -1,4 +1,15 @@
 ---
+1.0.0:
+  api: 1.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2026-06-15
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    chore: Update workflow dependency
 1.0.0-beta1:
   api: 1.0.0-beta1
   state:
